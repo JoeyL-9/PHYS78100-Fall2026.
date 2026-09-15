@@ -1,7 +1,7 @@
 import argparse
 import math
 
-parser = argparse.ArgumentParser(description="Free-fall calculator")
+parser = argparse.ArgumentParser(description="Free-fall")
 
 parser.add_argument("height", type=float, help="Drop height in meters")
 parser.add_argument(
@@ -23,9 +23,6 @@ else:
     print(f"Gravity: {args.gravity:.2f} m/s²")
     print(f"Fall time: {time:.2f} s")
     print(f"Impact speed: {speed:.2f} m/s")
-
-# For Earth
-["100", "--gravity", "9.81"]
 
 # For Earth's Moon
 ["50", "--gravity", "1.62"]
