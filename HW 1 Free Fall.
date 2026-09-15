@@ -1,8 +1,3 @@
-# HW1 – Free Fall
-# This program calculates how long it takes a ball to fall
-# from a user-specified height.
-# The user can also select a different value for gravity.
-
 import argparse
 import math
 
