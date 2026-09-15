@@ -1,0 +1,31 @@
+import argparse
+import math
+
+parser = argparse.ArgumentParser(description="Free-fall calculator")
+
+parser.add_argument("height", type=float, help="Drop height in meters")
+parser.add_argument(
+    "-g", "--gravity",
+    type=float,
+    default=9.81,
+    help="Gravity in m/s²"
+)
+
+args = parser.parse_args(["100", "--gravity", "9.81"])
+
+if args.height <= 0 or args.gravity <= 0:
+    print("Height and gravity must be positive.")
+else:
+    time = math.sqrt(2 * args.height / args.gravity)
+    speed = args.gravity * time
+
+    print(f"Height: {args.height:.2f} m")
+    print(f"Gravity: {args.gravity:.2f} m/s²")
+    print(f"Fall time: {time:.2f} s")
+    print(f"Impact speed: {speed:.2f} m/s")
+
+# For Earth
+["100", "--gravity", "9.81"]
+
+# For Earth's Moon
+["50", "--gravity", "1.62"]
