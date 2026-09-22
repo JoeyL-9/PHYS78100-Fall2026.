@@ -5,13 +5,19 @@ def E(x):
     t = np.linspace(0, x, 1001)
     return np.trapz(np.exp(-t**2), t)
 
-x = np.arange(0, 3.1, 0.1)
-y = [E(i) for i in x]
+x_values = np.arange(0, 3.1, 0.1)
+E_values = [E(x) for x in x_values]
 
-print("E(3) =", E(4))
+print("E(3) =", E(3))
 
-plt.plot(x, y)
+plt.figure(figsize=(8, 5))
+plt.plot(x_values, E_values, marker="o", markersize=4,
+         label=r"$E(x)=\int_0^x e^{-t^2}\,dt$")
+
 plt.xlabel("x")
 plt.ylabel("E(x)")
-plt.grid()
+plt.title("Numerical Integration of $e^{-t^2}$")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
 plt.show()
