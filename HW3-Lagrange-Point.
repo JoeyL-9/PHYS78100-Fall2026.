@@ -12,4 +12,5 @@ r = 3.2e8
 for i in range(10):
     r = r - f(r)/df(r)
 
-print(f"L1 = {r/1000:.2f} km from Earth")
+print(f"Lagrange1 = {r/1000:.2f} km from Earth")
+print(f"Lagrange1 Earth's Moon  = {(R-r)/1000:.2f} km")
