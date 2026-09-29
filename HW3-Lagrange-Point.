@@ -1,0 +1,15 @@
+G, M, m = 6.6743e-11, 5.972e24, 7.348e22
+R, w = 3.844e8, 2.662e-6
+
+def f(r):
+    return G*M/r**2 - G*m/(R-r)**2 - w**2*r
+
+def df(r):
+    return -2*G*M/r**3 - 2*G*m/(R-r)**3 - w**2
+
+r = 3.2e8
+
+for i in range(10):
+    r = r - f(r)/df(r)
+
+print(f"L1 = {r/1000:.2f} km from Earth")
