@@ -1,0 +1,43 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from astropy.io import fits
+
+d = fits.getdata("tic0000091961.fits", 1)
+time, flux = d["times"], d["fluxes"]
+
+use = (time >= 2348) & (time <= 2358)
+t, y = time[use], flux[use]
+
+dt = np.median(np.diff(t))
+missing = np.sum(np.maximum(np.round(np.diff(t)/dt) - 1, 0))
+t2 = np.arange(t[0], t[-1], dt)
+y2 = np.interp(t2, t, y)
+
+c = np.fft.rfft(y2 - y2.mean())
+freq = np.fft.rfftfreq(len(y2), dt)
+power = abs(c)**2
+
+keep = np.argsort(abs(c))[-20:]
+c_small = np.zeros_like(c)
+c_small[keep] = c[keep]
+model = np.fft.irfft(c_small, len(y2)) + y2.mean()
+
+peak = np.argmax(power[1:]) + 1
+print("Missing observations:", int(missing))
+print("Dominant period:", 1/freq[peak], "days")
+
+fig, ax = plt.subplots(3, 1, figsize=(8, 9))
+
+ax[0].plot(time, flux, ".", ms=1)
+ax[0].set(title="Complete Light Curve", ylabel="Flux")
+
+ax[1].plot(freq[1:], power[1:])
+ax[1].set(title="Power Spectrum", ylabel="Power", xlim=(0, 10))
+
+ax[2].plot(t, y, ".", ms=2, label="Observed")
+ax[2].plot(t2, model, label="Fourier model")
+ax[2].set(xlabel="Time", ylabel="Flux")
+ax[2].legend()
+
+plt.tight_layout()
+plt.show()
