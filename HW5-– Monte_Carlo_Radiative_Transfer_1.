@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+rng = np.random.default_rng()
+L, l, x, mu = 1000, 150, [0], 1
+
+while 0 <= x[-1] < L:
+    new = x[-1] + rng.exponential(l)*mu
+
+    if new <= 0 or new >= L:
+        x.append(np.clip(new, 0, L))
+        break
+
+    x.append(new)
+    mu = rng.uniform(-1, 1)
+
+print("Transmitted" if x[-1] == L else "Reflected")
+
+fig, ax = plt.subplots()
+ax.set(xlim=(0, L), ylim=(-1, 1), xlabel="Position (m)")
+dot, = ax.plot([], [], "ro")
+
+def update(i):
+    dot.set_data([x[i]], [0])
+    return dot,
+
+ani = FuncAnimation(fig, update, frames=len(x), interval=250)
+plt.close()
+HTML(ani.to_jshtml())
